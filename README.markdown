@@ -143,7 +143,7 @@ in here, usually you want a command to open a new buffer: `new`, `vnew`,
 It highlights comments and the `d` to indicate directories with:
 
     hi batchy    guifg=#aaaaaa ctermfg=grey
-    hi batchyDir guifg=#0000ff ctermfg=blue
+    hi default link batchyDir Directory
 
 Which you can change if you want.
 
