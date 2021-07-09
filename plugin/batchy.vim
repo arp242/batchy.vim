@@ -1,3 +1,8 @@
+if exists('g:loaded_batchy') | finish | endif
+let g:loaded_batchy = 1
+let s:save_cpo = &cpo
+set cpo&vim
+
 comm! -nargs=* Batchy :call s:batchy(<f-args>)
 
 fun! s:batchy(...) abort
@@ -53,3 +58,6 @@ fun s:batchy_to_shell(cmd)
 					\ '# ' .. l[3])
 	endfor
 endfun
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
