@@ -166,8 +166,9 @@ This is why the source and destination are reversed: it's just so much easier.
 If it would keep the `src dst` order all of the above would require a lot more
 complex patterns.
 
-*NOTE*: if you use `set gdefault` then you need to add a `/g` flag back, as
-there is the assumption that only the first match will be replaced.
+*NOTE*: the `gdefault` option is reset for batchy buffers, as many of these
+patterns won't work with it enabled (you can add the `/g` flag to disable it,
+but it's annoying and you never really want this setting for batchy really).
 
 If you use spaces in your filename or want to be absolutely sure it will only
 operate on the destination name, then you can use a more specific match:

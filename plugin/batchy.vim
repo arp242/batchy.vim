@@ -19,7 +19,7 @@ let s:map_type = #{file: 'f', dir: 'd', link: 'l', bdev: 'b', cdev: 'c',
 
 fun s:batchy_new(cmd) abort
 	exe len(a:cmd) > 0 ? a:cmd : get(g:, 'batchy_new', 'tabnew | setl noswapfile buftype=nofile bufhidden=hide nowrap')
-	setl ft=batchy
+	setl ft=batchy nogdefault
 
 	let ls = readdirex('.')->sort({a, b -> a.type > b.type})
 	let [l_n, l_s] = [0, 0]
