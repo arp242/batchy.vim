@@ -35,7 +35,7 @@ fun s:batchy_new(cmd) abort
 endfun
 
 fun s:batchy_to_shell(cmd)
-	g!/←/g!/^\s*$/s!^!# !
+	silent g!/←/g!/^\s*$/s!^!# !
 
 	let [list, cols] = [[], [0, 0]]
 	for i in execute('g/←/echo line(".")')->split('\n')->filter({_, v -> v !~# '^Pattern'})
@@ -45,7 +45,7 @@ fun s:batchy_to_shell(cmd)
 		let [cols[0], cols[1]] = [max([cols[0], len(src)+2]), max([cols[1], len(dst)+2])]
 	endfor
 
-	let cmd = len(a:cmd) > 0 ? a:cmd : 'mv'
+	let cmd = len(a:cmd) > 0 ? a:cmd : 'mv -n'
 	for l in list
 		call setline(l[0], cmd .. ' ' ..
 					\ l[2] .. repeat(' ', cols[1] - len(l[2])) ..

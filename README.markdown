@@ -9,7 +9,8 @@ edit, run `:Batchy` again to convert it to a shell script that you can examine
 for correctness, maybe modify, and run with `:%!sh`.
 
 Note: you probably need a fairly new Vim for this; e.g. `readdirex()` was added
-in Vim 8.2.0988 (June 2020).
+in Vim 8.2.0988 (June 2020). This also won't work for Neovim until
+[#12525](https://github.com/neovim/neovim/issues/12525) is fixed.
 
 
 Usage
@@ -61,10 +62,10 @@ Now, let's say you modify the buffer to prefix every file with `xx-`:
 
 Run `:Batchy` again and it will replace the buffer with a shell script:
 
-    mv 'ftplugin'         'xx-ftplugin'         # d  0.0K  Thu 2021-06-17 00:44:20
-    mv 'plugin'           'xx-plugin'           # d  0.0K  Thu 2021-06-17 00:51:16
-    mv 'LICENSE'          'xx-LICENSE'          # f  1.1K  Thu 2021-06-17 00:21:12
-    mv 'README.markdown'  'xx-README.markdown'  # f  2.5K  Thu 2021-06-17 00:51:06
+    mv -n 'ftplugin'         'xx-ftplugin'         # d  0.0K  Thu 2021-06-17 00:44:20
+    mv -n 'plugin'           'xx-plugin'           # d  0.0K  Thu 2021-06-17 00:51:16
+    mv -n 'LICENSE'          'xx-LICENSE'          # f  1.1K  Thu 2021-06-17 00:21:12
+    mv -n 'README.markdown'  'xx-README.markdown'  # f  2.5K  Thu 2021-06-17 00:51:06
 
 *Nothing gets run automatically*. Write it to a file or use `:%!sh`.
 
@@ -76,7 +77,7 @@ without escaping. For example this:
 
 Becomes:
 
-    mv 'README.markdown'  'the "README" file'  # f  3.0K  Thu 2021-06-17 01:01:02
+    mv -n 'README.markdown'  'the "README" file'  # f  3.0K  Thu 2021-06-17 01:01:02
 
 You can't have a file with leading or trailing whitespace, and there is no way
 to escape the `←` and `│` marker; they're chosen because it's extremely unlikely
@@ -125,7 +126,7 @@ If the current `filetype` is `batchy` then it will try to convert the buffer to
 a shell script:
 
 - Any arguments to `:Batchy` will be taken as the command to use; e.g. `:Batchy
-  cp`, `:Batchy mv -i`. This defaults to `mv` if not given.
+  cp`, `:Batchy ln -s`. This defaults to `mv -n` if not given.
 - Only lines matching `←` are processed.
 - All other lines are commented out with `# `.
 
