@@ -8,8 +8,12 @@ Run `:Batchy` to display a list of files in the current directory that you can
 edit, run `:Batchy` again to convert it to a shell script that you can examine
 for correctness, maybe modify, and run with `:%!sh`.
 
-Note: you probably need a fairly new Vim for this; e.g. `readdirex()` was added
-in Vim 8.2.0988 (June 2020). This also won't work for Neovim until
+You can run this directly from the shell with an alias:
+
+    alias batchy='vim +":Batchy echo" +"setl noswapfile buftype=nofile bufhidden=hide nowrap"'
+
+Note: you need a fairly new Vim for this; e.g. `readdirex()` was added in Vim
+8.2.0988 (June 2020). This also won't work for Neovim until
 [#12525](https://github.com/neovim/neovim/issues/12525) is fixed.
 
 
@@ -91,10 +95,6 @@ On the first `:Batchy` invocation it will create a new `batchy` buffer:
           \  if &buftype is# 'nofile' | setl swapfile buftype= bufhidden=
           \| else                     | setl noswapfile buftype=nofile bufhidden=hide | endif
           \| echo printf('swapfile=%s buftype=%s bufhidden=%s', &swapfile, &buftype, &bufhidden)
-
-  You can create a convenient shell alias with:
-
-      alias batchy='vim +":Batchy echo" +"setl noswapfile buftype=nofile bufhidden=hide nowrap"'
 
 - It always reads the current directory; you can `lcd` if you want a different
   one:
