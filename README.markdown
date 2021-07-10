@@ -15,25 +15,6 @@ in Vim 8.2.0988 (June 2020). This also won't work for Neovim until
 
 Usage
 -----
-Sometimes you want to rename a bunch of files, and typing all that `mv` is a lot
-of work! For a long time my solution for this was:
-
-    $ ls -1 | vim -
-    :%s/.*/\0  \0/ | Tabularize / /
-
-    [ .. do stuff in Vim ..]
-
-    :%s/^/mv /
-    :%!sh
-
-I know there are tools for this out there; I tried many and found all of them
-confusing. I don't do this often enough to learn the syntax of some tool, it's a
-"scary" operation because what if you get it wrong? And I already know Vim so I
-can just use that. A bunch of helper functions for this evolved in my vimrc over
-the years, and batchy is the end result.
-
----
-
 When you use `:Batchy` you get a new buffer filled with the contents of the
 current directory:
 
@@ -67,7 +48,7 @@ Run `:Batchy` again and it will replace the buffer with a shell script:
     mv -n 'LICENSE'          'xx-LICENSE'          # f  1.1K  Thu 2021-06-17 00:21:12
     mv -n 'README.markdown'  'xx-README.markdown'  # f  2.5K  Thu 2021-06-17 00:51:06
 
-*Nothing gets run automatically*. Write it to a file or use `:%!sh`.
+*Nothing gets run automatically*. Write it to a file or use `:%!sh` to run it.
 
 Whitespace surrounding the `←` and `│` markers is removed; if you want filenames
 with spaces (or other special shell characters) then you can just type them
@@ -127,11 +108,12 @@ a shell script:
 
 - Any arguments to `:Batchy` will be taken as the command to use; e.g. `:Batchy
   cp`, `:Batchy ln -s`. This defaults to `mv -n` if not given.
-- Only lines matching `←` are processed.
+- Only lines with `←` are processed.
 - All other lines are commented out with `# `.
 
-There is only exception to this: if the filetype is already `batchy` *and* the
-buffer is empty, then it will re-use the current buffer.
+There is one exception to this: if the filetype is already `batchy` *and* the
+buffer is empty, then it will populate the buffer as like the first `:Batchy`
+invocation.
 
 Options
 -------
@@ -159,7 +141,7 @@ Some tips to edit filenames:
     :%s/ /-suffix/    add a suffix
     :%s/-suffix //    remove a suffix
 
-    :%s/word/NEW/     replace word; because by default only the first match is
+    :%s/word/NEW/     replace word; because only the first match is
                       replaced this leaves the source filename alone.
 
 This is why the source and destination are reversed: it's just so much easier.
@@ -178,7 +160,7 @@ operate on the destination name, then you can use a more specific match:
 
     :%s/word\ze.\{-}←/X/    replace word only in the "destination" column.
 
-This matches "← preceeded by any space"; the `\ze` sets the "end of match"
+This matches "← preceded by any space"; the `\ze` sets the "end of match"
 location at the start, and whatever matches after that doesn't get replaced.
 
 You can also use block visual mode (`<C-v>`), or any command really. Using `:g`

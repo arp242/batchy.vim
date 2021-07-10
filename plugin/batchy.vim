@@ -8,10 +8,9 @@ comm! -nargs=* Batchy :call s:batchy(<f-args>)
 fun! s:batchy(...) abort
 	let empty = line('$') is 1 && getline('.') =~ '^\s*$'
 	if &ft is# 'batchy' && !empty
-		call s:batchy_to_shell(a:000->join(' '))
-	else
-		call s:batchy_new((&ft is# 'batchy' && empty) ? '.' : a:000->join(' '))
+		return s:batchy_to_shell(a:000->join(' '))
 	endif
+	return s:batchy_new((&ft is# 'batchy' && empty) ? '.' : a:000->join(' '))
 endfun
 
 let s:map_type = #{file: 'f', dir: 'd', link: 'l', bdev: 'b', cdev: 'c',
@@ -34,8 +33,7 @@ fun s:batchy_new(cmd) abort
 				\ '  ←  ' ..
 				\ (v.name .. repeat(' ', l_n-len(v.name))) ..
 				\ '  │  ' ..
-				\ v.type ..
-				\  repeat(' ', l_s-len(v.size)) .. v.size ..
+				\ v.type .. repeat(' ', l_s-len(v.size)) .. v.size ..
 				\ strftime('%a %Y-%m-%d %H:%M:%S', v.time)}))
 endfun
 
