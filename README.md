@@ -12,11 +12,6 @@ You can run this directly from the shell with an alias:
 
     alias batchy='vim +":Batchy echo" +"setl noswapfile buftype=nofile bufhidden=hide nowrap"'
 
-Note: you need a fairly new Vim for this; e.g. `readdirex()` was added in Vim
-8.2.0988 (June 2020). This also won't work for Neovim until
-[#12525](https://github.com/neovim/neovim/issues/12525) is fixed.
-
-
 Usage
 -----
 When you use `:Batchy` you get a new buffer filled with the contents of the
@@ -117,9 +112,9 @@ invocation.
 
 Options
 -------
-`g:batchy_new` gets run just before batchy inserts anyway; you can put anything
-in here, usually you want a command to open a new buffer: `new`, `vnew`,
-`tabnew`, etc. The default value is:
+`g:batchy_new` gets run just before batchy inserts anything; you can put
+anything in here, usually you want a command to open a new buffer: `new`,
+`vnew`, `tabnew`, etc. The default value is:
 
     tabnew | setl noswapfile buftype=nofile bufhidden=hide nowrap
 
