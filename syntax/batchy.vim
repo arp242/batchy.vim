@@ -1,5 +1,7 @@
-syn match batchy    /\([│#].*\|←\)/ contains=batchyDir
+syn match batchyDivider    /←/ contains=batchyDir
+syn match batchyComment    /[│#].*/ contains=batchyDir
 syn match batchyDir /[│#]\s*\zsd/
 
-hi batchy    guifg=#aaaaaa ctermfg=grey
+hi batchyDivider  gui=bold cterm=bold term=bold
+hi batchyComment  guifg=#aaaaaa ctermfg=grey
 hi default link batchyDir Directory
