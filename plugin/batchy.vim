@@ -13,26 +13,25 @@ fun! s:batchy(...) abort
 	return s:batchy_new((&ft is# 'batchy' && empty) ? '.' : a:000->join(' '))
 endfun
 
-let s:map_type = #{file: 'f', dir: 'd', link: 'l', bdev: 'b', cdev: 'c',
-			     \ socket: 's', fifo: 'f', other: 'o', linkd: 'L'}
+let s:map_type = #{file: 'f', dir: 'd', link: 'l', bdev: 'b', cdev: 'c', socket: 's', fifo: 'f', other: 'o', linkd: 'L'}
 
 fun s:batchy_new(cmd) abort
 	exe len(a:cmd) > 0 ? a:cmd : get(g:, 'batchy_new', 'tabnew | setl noswapfile buftype=nofile bufhidden=hide nowrap')
 	setl ft=batchy nogdefault
+	nnoremap <buffer> $ t←be
+	nnoremap <buffer> A t←bea
+	nnoremap <buffer> D dt←
 
 	let ls = readdirex('.')->sort({a, b -> a.type > b.type})
 	let [l_n, l_s] = [0, 0]
 	for l in ls
 		let l.size = printf('  %.1fK  ', l.size / 1024.0)
 		let l.type = s:map_type[l.type]
-		let l_n = max([l_n, len(l.name)])
-		let l_s = max([l_s, len(l.size)])
+		let [l_n, l_s] = [max([l_n, len(l.name)]), max([l_s, len(l.size)])]
 	endfor
 	call setline(1, ls->map({_, v ->
-				\ (v.name .. repeat(' ', l_n - len(v.name))) ..
-				\ '  ←  ' ..
-				\ (v.name .. repeat(' ', l_n - len(v.name))) ..
-				\ '  │  ' ..
+				\ v.name .. repeat(' ', l_n - len(v.name)) .. '  ←  ' ..
+				\ v.name .. repeat(' ', l_n - len(v.name)) .. '  │  ' ..
 				\ v.type .. repeat(' ', l_s - len(v.size)) .. v.size ..
 				\ strftime('%a %Y-%m-%d %H:%M:%S', v.time)}))
 endfun

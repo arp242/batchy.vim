@@ -128,7 +128,10 @@ Which you can change if you want.
 
 Editing
 -------
-Some tips to edit filenames:
+`$`, `A`, and `D` are remapped to operate before the `←` rather than the
+entire line.
+
+`:substitute` is quite useful as well:
 
     :%s/^/prefix-/    add a prefix
     :%s/^prefix-//    remove a prefix
