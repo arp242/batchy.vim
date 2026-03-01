@@ -47,7 +47,8 @@ Run `:Batchy` again and it will replace the buffer with a shell script:
     mv -n 'LICENSE'          'xx-LICENSE'          # f  1.1K  Thu 2021-06-17 00:21:12
     mv -n 'README.markdown'  'xx-README.markdown'  # f  2.5K  Thu 2021-06-17 00:51:06
 
-*Nothing gets run automatically*. Write it to a file or use `:%!sh` to run it.
+*Nothing is run yet*; Write it to a file or use `:%!sh` to run it. Or use
+`:Batchy!` to run it automatically.
 
 Whitespace surrounding the `←` and `│` markers is removed; if you want filenames
 with spaces (or other special shell characters) then you can just type them
@@ -109,6 +110,9 @@ a shell script:
 There is one exception to this: if the filetype is already `batchy` *and* the
 buffer is empty, then it will populate the buffer as like the first `:Batchy`
 invocation.
+
+If you use `:Batchy!` is will automatically run the generated shell script with
+`%!sh`.
 
 Options
 -------

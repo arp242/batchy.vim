@@ -3,12 +3,16 @@ let g:loaded_batchy = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-comm! -nargs=* Batchy :call s:batchy(<f-args>)
+comm! -nargs=* -bang Batchy :call s:batchy(<bang>0, <f-args>)
 
-fun! s:batchy(...) abort
+fun! s:batchy(bang, ...) abort
 	let empty = line('$') is 1 && getline('.') =~ '^\s*$'
 	if &ft is# 'batchy' && !empty
-		return s:batchy_to_shell(a:000->join(' '))
+		call s:batchy_to_shell(a:000->join(' '))
+		if a:bang
+			:%!sh
+		endif
+		return
 	endif
 	return s:batchy_new((&ft is# 'batchy' && empty) ? '.' : a:000->join(' '))
 endfun
